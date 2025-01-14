@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mindful Space - Your Mental Wellness Companion</title>
+    <link rel="icon" type="image/png" href="D1.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+            background: #f4f4f9;
+            color: #333;
+        }
+
+        
+        /* Header */
+        header {
+            background: linear-gradient(120deg, #4c6ef5, #7b9cf5);
+            color: white;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        nav {
+            display: flex;
+            gap: 1rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            transition: opacity 0.3s;
+        }
+
+        nav a:hover {
+            opacity: 0.8;
+        }
+
+        /* Hero Section */
+        .hero {
+    position: relative;
+    min-height: 88vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    overflow: hidden;
+}
+.hero-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    filter: brightness(50%);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    padding: 2rem;
+}
+
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin-bottom: 2rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .cta-button, .download-button {
+            background: white;
+            color: #4c6ef5;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .cta-button:hover, .download-button:hover {
+            transform: scale(1.1);
+            background: #7b9cf5;
+            color: white;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 4rem 1rem;
+            text-align: center;
+            background: #ffffff;
+        }
+
+        .features h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: #4c6ef5;
+        }
+
+        .feature-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+        }
+
+        .feature-item {
+            background: #f0f4ff;
+            color: #333;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            flex: 1 1 calc(300px - 1rem);
+            max-width: 300px;
+        }
+
+        .feature-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Download Section */
+        .download {
+            padding: 4rem 1rem;
+            background: linear-gradient(120deg, #4c6ef5, #7b9cf5);
+            color: white;
+            text-align: center;
+        }
+
+        .download h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .download p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .download .app-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .app-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: white;
+            color: #4c6ef5;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 700;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .app-button:hover {
+            transform: translateY(-5px);
+            background: #f0f4ff;
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            padding: 4rem 1rem;
+            background: #f9f9f9;
+            text-align: center;
+        }
+
+        .testimonials h2 {
+            font-size: 2rem;
+            color: #4c6ef5;
+            margin-bottom: 2rem;
+        }
+
+        .testimonial {
+            font-style: italic;
+            max-width: 600px;
+            margin: 0 auto 1.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background: #4c6ef5;
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+        }
+
+        footer a {
+            color: #48c6ef;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+        /* Pricing Section */
+        .pricing {
+            padding: 4rem 1rem;
+            background: #f9f9f9;
+            text-align: center;
+        }
+
+        .pricing h2 {
+            font-size: 2rem;
+            color: #4c6ef5;
+            margin-bottom: 2rem;
+        }
+
+        .pricing-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+        }
+
+        .pricing-item {
+            background: white;
+            border: 2px solid #4c6ef5;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            flex: 1 1 calc(300px - 1rem);
+            max-width: 300px;
+        }
+
+        .pricing-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .pricing-item h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .pricing-item p {
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .pricing-item .price {
+            font-size: 2rem;
+            color: #4c6ef5;
+            margin-bottom: 1.5rem;
+        }
+
+        .pricing-item .btn {
+            display: inline-block;
+            background: #4c6ef5;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 700;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .pricing-item .btn:hover {
+            transform: scale(1.1);
+            background: #7b9cf5;
+        }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            nav {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 0.5rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .cta-button, .download-button {
+                font-size: 1rem;
+                padding: 0.8rem 1.5rem;
+            }
+
+            .feature-item {
+                flex: 1 1 100%;
+            }
+
+            .app-button {
+                padding: 0.8rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Mindful Space</div>
+        <nav>
+            <a href="#hero">Home</a>
+            <a href="#features">Features</a>
+            <a href="#download">Download</a>
+        </nav>
+    </header>
+    <section id="hero" class="hero">
+        <video autoplay muted loop playsinline class="hero-video">
+            <source src="videoplayback (2).mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="hero-content">
+            <img src="bg_rem.png" alt="Mindful Space Logo" style="max-width: 200px; height: auto;">
+            <h1>Welcome to Mindful Space</h1>
+            <p>Your partner in achieving mental wellness and a balanced lifestyle.</p>
+            <div class="cta-buttons">
+                <a href="#features" class="cta-button">Learn More</a>
+                <a href="#download" class="download-button">Download App</a>
+            </div>
+        </div>
+    </section>
+    <section id="features" class="features">
+        <h2>Why Choose Mindful Space?</h2>
+        <div class="feature-grid">
+            <div class="feature-item">
+                <h3>Guided Meditations</h3>
+                <p>Explore calming sessions tailored to your mood and needs.</p>
+            </div>
+            <div class="feature-item">
+                <h3>Daily Affirmations</h3>
+                <p>Start your day with positive and empowering affirmations.</p>
+            </div>
+            <div class="feature-item">
+                <h3>Stress Tracker</h3>
+                <p>Monitor and manage your stress levels effectively.</p>
+            </div>
+            <div class="feature-item">
+                <h3>Professional Resources</h3>
+                <p>Access resources curated by mental health experts.</p>
+            </div>
+        </div>
+    </section>
+    <section id="download" class="download">
+        <h2>Download Mindful Space Now</h2>
+        <p>Start your journey to mental wellness today. Available on all platforms.</p>
+        <div class="app-buttons">
+            <a href="#" class="app-button">Download for iOS (Coming Soon)</a>
+            <a href="#" class="app-button">Download for Android</a>
+        </div>
+    </section>
+    <section id="testimonials" class="testimonials">
+        <style>
+            .testimonials {
+                padding: 4rem 1rem;
+                background: #f9f9f9;
+                text-align: center;
+            }
+    
+            .testimonials h2 {
+                font-size: 2rem;
+                margin-bottom: 2rem;
+                color: #4c6ef5;
+            }
+    
+            .testimonial-box {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 2rem;
+            }
+    
+            .testimonial-box img {
+                width: 60px;
+                height: 60px;
+                border-radius: 50%;
+                margin-right: 1rem;
+                border: 2px solid #4c6ef5;
+            }
+    
+            .testimonial-text {
+                max-width: 600px;
+                font-size: 1rem;
+                color: #555;
+                line-height: 1.6;
+                text-align: left;
+            }
+    
+            .testimonial-name {
+                font-weight: bold;
+                color: #333;
+                margin-top: 0.5rem;
+            }
+        </style>
+        <h2>What Our Users Say</h2>
+    
+        <div class="testimonial-box">
+            <img src="https://yash.immersivex.in/yash.png" alt="User Image">
+            <div>
+                <p class="testimonial-text">"Mindful Space has truly transformed my life. I feel more in control and at peace."</p>
+                <p class="testimonial-name">- Yash Rathore.</p>
+            </div>
+        </div>
+    
+        <div class="testimonial-box">
+            <img src="https://media.gettyimages.com/id/1437047112/photo/volunteer-friends-gardening-at-sunset-taking-a-selfie.jpg?s=612x612&w=0&k=20&c=0Qp1W9TjUH_iVgGJOoyELBDIzmrwtIbe22x8xdBwV9M=" alt="User Image">
+            <div>
+                <p class="testimonial-text">"I can't imagine my mornings without the daily affirmations. Highly recommended!"</p>
+                <p class="testimonial-name">- James L.</p>
+            </div>
+        </div>
+    
+        <div class="testimonial-box">
+            <img src="https://media.gettyimages.com/id/1135381120/photo/portrait-of-a-young-woman-outdoors-smiling.jpg?s=612x612&w=0&k=20&c=T5dukPD1r-o0BFqeqlIap7xzw07icucetwKaEC2Ms5M=" alt="User Image">
+            <div>
+                <p class="testimonial-text">"The guided meditations are a game changer. My stress levels have dropped significantly."</p>
+                <p class="testimonial-name">- Priya S.</p>
+            </div>
+        </div>
+    
+        <div class="testimonial-box">
+            <img src="https://media.gettyimages.com/id/1961053928/photo/testimonial-portrait-of-a-handsome-mature-man.jpg?s=612x612&w=0&k=20&c=MJq7K4S8Hihi7p4f4-Ja4_II9X8HRsBGusOcJ7uJLbc=" alt="User Image">
+            <div>
+                <p class="testimonial-text">"I love the simplicity and ease of use. This app fits seamlessly into my daily routine."</p>
+                <p class="testimonial-name">- Michael R.</p>
+            </div>
+        </div>
+    
+        <div class="testimonial-box">
+            <img src="https://media.gettyimages.com/id/1304581885/photo/portrait-of-young-woman-smiling.jpg?s=612x612&w=0&k=20&c=szq9mHVYt-iWL6TebJ6BfxSX8e9WR1HqF-PbR5oma4Y=" alt="User Image">
+            <div>
+                <p class="testimonial-text">"Mindful Space is my go-to for relaxation after a long day. Can't recommend it enough!"</p>
+                <p class="testimonial-name">- Emily T.</p>
+            </div>
+        </div>
+    </section>
+    
+
+
+
+    <section id="mission" class="mission">
+        <style>
+            .mission {
+                padding: 4rem 1rem;
+                background: #eef3fd;
+                text-align: center;
+            }
+    
+            .mission h2 {
+                font-size: 2rem;
+                margin-bottom: 1.5rem;
+                color: #4c6ef5;
+            }
+    
+            .mission p {
+                font-size: 1.2rem;
+                color: #555;
+                max-width: 700px;
+                margin: 0 auto;
+                line-height: 1.6;
+            }
+    
+            .mission .highlight {
+                color: #7b9cf5;
+                font-weight: 600;
+            }
+        </style>
+        <h2>Our Mission</h2>
+        <p>
+            At <span class="highlight">Mindful Space</span>, our mission is to empower individuals to achieve mental well-being 
+            through accessible tools, guided practices, and a supportive community. We strive to create a 
+            <span class="highlight">healthier, happier world</span>—one mindful moment at a time.
+        </p>
+    </section>
+    
+
+
+    <section id="pricing" class="pricing">
+        <h2>Our Pricing Plans</h2>
+        <div class="pricing-grid">
+            <div class="pricing-item">
+                <h3>Basic Plan</h3>
+                <p>Perfect for beginners.</p>
+                <div class="price">$0/month</div>
+                <a href="#" class="btn">Get Started</a>
+            </div>
+            <div class="pricing-item">
+                <h3>Pro Plan</h3>
+                <p>Advanced features for enthusiasts.</p>
+                <div class="price">$0/month</div>
+                <a href="#" class="btn">Get Started</a>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <img src="bg_rem.png" alt="Mindful Space Logo" style="max-width: 100px; height: auto;">
+        <p>&copy; 2025 Mindful Space. All rights reserved. | <a href="#hero">Back to top</a></p>
+    </footer>
+</body>
+</html>
