@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Booking | Mindful Space</title>
+    <script type="module">
+        // Import Firebase SDK
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js";
+
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDYRxm4axLHb6XnJkvpd-PAm3Od9rhGVM4",
+            authDomain: "mindfulspace-956b8.firebaseapp.com",
+            projectId: "mindfulspace-956b8",
+            storageBucket: "mindfulspace-956b8.appspot.com",
+            messagingSenderId: "339812618356",
+            appId: "1:339812618356:web:c5229ca7fe96b9fa23c121",
+            measurementId: "G-5Q6HY1TCV0"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Function to get booking details
+        async function fetchBooking() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const bookingId = urlParams.get("id");
+
+            if (!bookingId) {
+                document.getElementById("booking-details").innerHTML = "<p class='error'>Invalid Booking ID!</p>";
+                return;
+            }
+
+            const docRef = doc(db, "consultations", bookingId);
+            const docSnap = await getDoc(docRef);
+
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+                document.getElementById("booking-details").innerHTML = `
+                    <h2>Booking Verified ✅</h2>
+                    <p><strong>Doctor:</strong> ${data.doctorName} (${data.doctorRole})</p>
+                    <p><strong>Qualifications:</strong> ${data.doctorQualifications}</p>
+                    <p><strong>Patient:</strong> ${data.patientName} (Age: ${data.patientAge})</p>
+                    <p><strong>Reason:</strong> ${data.reason}</p>
+                    <p><strong>Date:</strong> ${new Date(data.timestamp.toDate()).toLocaleString()}</p>
+                `;
+            } else {
+                document.getElementById("booking-details").innerHTML = "<p class='error'>Booking Not Found ❌</p>";
+            }
+        }
+
+        // Run function on page load
+        window.onload = fetchBooking;
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color: #0F172A;
+            color: #F8FAFC;
+        }
+        h1 {
+            color: #22D3EE;
+        }
+        .container {
+            max-width: 500px;
+            margin: auto;
+            background: #1E293B;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .error {
+            color: #F87171;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Verify Your Booking</h1>
+    <div class="container">
+        <div id="booking-details">
+            <p>Loading...</p>
+        </div>
+    </div>
+
+</body>
+</html>
