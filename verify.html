@@ -26,30 +26,79 @@
 
         // Function to get booking details
         async function fetchBooking() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const bookingId = urlParams.get("id");
+            try {
+                document.getElementById("loading-indicator").style.display = "block";
+                
+                const urlParams = new URLSearchParams(window.location.search);
+                const bookingId = urlParams.get("id");
 
-            if (!bookingId) {
-                document.getElementById("booking-details").innerHTML = "<p class='error'>Invalid Booking ID!</p>";
-                return;
+                if (!bookingId) {
+                    showError("Invalid Booking ID! Please check your link.");
+                    return;
+                }
+
+                const docRef = doc(db, "consultations", bookingId);
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    
+                    // Handle timestamp properly - check if it's a Firestore timestamp or Date
+                    let formattedDate = "Not specified";
+                    if (data.timestamp) {
+                        if (data.timestamp.toDate) {
+                            // It's a Firestore timestamp
+                            formattedDate = data.timestamp.toDate().toLocaleString();
+                        } else if (data.timestamp instanceof Date) {
+                            // It's already a Date object
+                            formattedDate = data.timestamp.toLocaleString();
+                        } else if (data.timestamp.seconds) {
+                            // It's a Firestore timestamp serialized
+                            formattedDate = new Date(data.timestamp.seconds * 1000).toLocaleString();
+                        } else {
+                            // Try to parse as string or number
+                            formattedDate = new Date(data.timestamp).toLocaleString();
+                        }
+                    }
+                    
+                    document.getElementById("loading-indicator").style.display = "none";
+                    document.getElementById("booking-details").innerHTML = `
+                        <div class="success-box">
+                            <h2>Booking Verified ✅</h2>
+                            <div class="detail-row">
+                                <strong>Doctor:</strong> ${data.doctorName || 'Not specified'} ${data.doctorRole ? `(${data.doctorRole})` : ''}
+                            </div>
+                            <div class="detail-row">
+                                <strong>Qualifications:</strong> ${data.doctorQualifications || 'Not specified'}
+                            </div>
+                            <div class="detail-row">
+                                <strong>Patient:</strong> ${data.patientName || 'Not specified'} ${data.patientAge ? `(Age: ${data.patientAge})` : ''}
+                            </div>
+                            <div class="detail-row">
+                                <strong>Reason:</strong> ${data.reason || 'Not specified'}
+                            </div>
+                            <div class="detail-row">
+                                <strong>Date:</strong> ${formattedDate}
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    showError("Booking Not Found! Please check your booking ID.");
+                }
+            } catch (error) {
+                console.error("Error fetching booking:", error);
+                showError("An error occurred while verifying your booking. Please try again later.");
             }
+        }
 
-            const docRef = doc(db, "consultations", bookingId);
-            const docSnap = await getDoc(docRef);
-
-            if (docSnap.exists()) {
-                const data = docSnap.data();
-                document.getElementById("booking-details").innerHTML = `
-                    <h2>Booking Verified ✅</h2>
-                    <p><strong>Doctor:</strong> ${data.doctorName} (${data.doctorRole})</p>
-                    <p><strong>Qualifications:</strong> ${data.doctorQualifications}</p>
-                    <p><strong>Patient:</strong> ${data.patientName} (Age: ${data.patientAge})</p>
-                    <p><strong>Reason:</strong> ${data.reason}</p>
-                    <p><strong>Date:</strong> ${new Date(data.timestamp.toDate()).toLocaleString()}</p>
-                `;
-            } else {
-                document.getElementById("booking-details").innerHTML = "<p class='error'>Booking Not Found ❌</p>";
-            }
+        function showError(message) {
+            document.getElementById("loading-indicator").style.display = "none";
+            document.getElementById("booking-details").innerHTML = `
+                <div class="error-box">
+                    <p class="error">${message}</p>
+                    <p>If you believe this is an error, please contact support.</p>
+                </div>
+            `;
         }
 
         // Run function on page load
@@ -57,35 +106,80 @@
     </script>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             text-align: center;
             padding: 20px;
             background-color: #0F172A;
             color: #F8FAFC;
+            line-height: 1.6;
+            margin: 0;
         }
         h1 {
             color: #22D3EE;
+            margin-bottom: 30px;
         }
         .container {
             max-width: 500px;
             margin: auto;
             background: #1E293B;
-            padding: 20px;
-            border-radius: 10px;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
         }
         .error {
             color: #F87171;
+            font-weight: bold;
+        }
+        .error-box {
+            background-color: rgba(248, 113, 113, 0.1);
+            border-left: 4px solid #F87171;
+            padding: 15px;
+            text-align: left;
+            border-radius: 5px;
+        }
+        .success-box {
+            background-color: rgba(34, 211, 238, 0.1);
+            border-left: 4px solid #22D3EE;
+            padding: 20px;
+            text-align: left;
+            border-radius: 5px;
+        }
+        .detail-row {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+        .loading {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255, 255, 255, .3);
+            border-radius: 50%;
+            border-top-color: #22D3EE;
+            animation: spin 1s ease-in-out infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .logo {
+            margin-bottom: 20px;
+            width: 100px;
         }
     </style>
 </head>
 <body>
-
-    <h1>Verify Your Booking</h1>
+    <h1>MindfulSpace Booking Verification</h1>
     <div class="container">
-        <div id="booking-details">
-            <p>Loading...</p>
+        <div id="loading-indicator" style="margin: 20px 0;">
+            <div class="loading"></div>
+            <p>Verifying booking details...</p>
         </div>
+        <div id="booking-details"></div>
     </div>
-
+    <div style="margin-top: 20px; color: #94A3B8; font-size: 14px;">
+        © 2024 MindfulSpace. All rights reserved.
+    </div>
 </body>
-</html>
+</html> 
